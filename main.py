@@ -15,14 +15,15 @@ def sum_hand(hand):
   return sum_in_hand
   
 #function that choose what will be the value "A" based on the current sum of cards in hand
-def choose_a(s):
+def choose_a(hand):
+  s = sum_hand(hand)
   if s > 10:
     if s == 22:
-      return 6
+      cards["A"] = 6
     else:
-      return 1
+      cards["A"] = 1
   else:
-    return 11
+    cards["A"] = 11
 
 print(logo)
 start = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
@@ -38,12 +39,8 @@ while start == "y":
   player_cards = []
   computer_cards = []
 
-  #player, first 2 cards
-  for i in range(2):
-    player_cards.append(random.choice(list(cards)))
-  sum_player = sum_hand(player_cards)
-  
   #computer first 2 cards
+  cards["A"] = 11
   for i in range(2):
     computer_cards.append(random.choice(list(cards)))
   sum_pc = sum_hand(computer_cards)
@@ -51,16 +48,23 @@ while start == "y":
   #this loop will add cards to computer hand until sum of hands reach value 17
   while sum_pc < 17:
     computer_cards.append(random.choice(list(cards)))
-    pc_a = choose_a(sum_pc)  #this choose the next value of "A" based on the current sum
+    choose_a(computer_cards)  #this choose the next value of "A" based on the current sum
     sum_pc = sum_hand(computer_cards)
   
-  
+  #player, first 2 cards
+  choose_a(player_cards) #reset "A" to 11  
+  for i in range(2):
+    player_cards.append(random.choice(list(cards)))
+  sum_player = sum_hand(player_cards)
   
   print(f"You have: {player_cards}, score: {sum_player}")
   print(f"Dealer's first card is: {computer_cards[0]}\n")
   
   #sum player
   if sum_player == 21:
+    clear()
+    print(logo)
+    another_card = "n"
     print(f"You have Black Jack: {player_cards}, score: {sum_player}")
     if sum_pc == 21:
       print(f"Dealer has also Black Jack: {computer_cards}")
@@ -75,8 +79,8 @@ while start == "y":
   while another_card == "y":
     clear()
     print(logo)
+    choose_a(player_cards)
     player_cards.append(random.choice(list(cards)))
-    a = choose_a(sum_player)
     sum_player = sum_hand(player_cards)
     
     if sum_player > 21:
@@ -106,9 +110,9 @@ while start == "y":
     print(f"You have: {player_cards}, score: {sum_player}")
     print(f"Dealer has: {computer_cards}, score: {sum_pc}")    
 
-    if sum_player < sum_hand(computer_cards) < 22:
+    if sum_player < sum_pc < 22:
       print("Dealer wins!")
-    elif sum_player == sum_hand(computer_cards):
+    elif sum_player == sum_pc:
       print("Push! It's a draw.")
     else:
       print("You win!")
