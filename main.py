@@ -7,12 +7,14 @@ a = 11 #function: choose_a() will make a = 1 if hands score becomes greater than
 
 cards = {"A": a, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "J": 10, "Q": 10, "K": 10}
 
-  
+#function that does the sum of cards in hands. Input are cards  
 def sum_hand(hand):
   sum_in_hand = 0
   for card in hand:
     sum_in_hand += cards[card]
   return sum_in_hand
+  
+#function that choose what will be the value "A" based on the current sum of cards in hand
 def choose_a(s):
   if s > 10:
     if s == 22:
@@ -25,28 +27,31 @@ def choose_a(s):
 print(logo)
 start = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
 
+#game main loop
 while start == "y":
   sum_player = 0
   sum_pc = 0
   clear()
   print(logo)
-  #player cards:
+  
+  #cards:
   player_cards = []
   computer_cards = []
 
-  #player, first hand
+  #player, first 2 cards
   for i in range(2):
     player_cards.append(random.choice(list(cards)))
   sum_player = sum_hand(player_cards)
   
-  #computer possible cards
+  #computer first 2 cards
   for i in range(2):
     computer_cards.append(random.choice(list(cards)))
   sum_pc = sum_hand(computer_cards)
- 
+
+  #this loop will add cards to computer hand until sum of hands reach value 17
   while sum_pc < 17:
     computer_cards.append(random.choice(list(cards)))
-    pc_a = choose_a(sum_pc)
+    pc_a = choose_a(sum_pc)  #this choose the next value of "A" based on the current sum
     sum_pc = sum_hand(computer_cards)
   
   
@@ -112,13 +117,4 @@ while start == "y":
     else:
       print("You win!")
   
-  
-  
   start = input("Type 'y' if you want to play again: ")
-
-
-    
-    
-    
-
-  
