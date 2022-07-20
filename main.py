@@ -116,14 +116,3 @@ while start == "y":
   
   
   start = input("Type 'y' if you want to play again: ")
-
-
-    
-    
-    
-
-  
-  
-
-  
-  
