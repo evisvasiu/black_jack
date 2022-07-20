@@ -56,21 +56,22 @@ while start == "y":
   
   
   
-  print(f"Your cards: {player_cards}, score: {sum_player}")
-  print(f"Computer first card: {computer_cards[0]}\n")
+  print(f"You have: {player_cards}, score: {sum_player}")
+  print(f"Dealer's first card is: {computer_cards[0]}\n")
   
   #sum player
   if sum_player == 21:
     print(f"You have Black Jack: {player_cards}, score: {sum_player}")
     if sum_pc == 21:
-      print(f"Computer has also Black Jack: {computer_cards}")
-      print("Draw!")
+      print(f"Dealer has also Black Jack: {computer_cards}")
+      print("It's a draw!")
     else:
       print("You win!")
-      print(f"Computer cards: {computer_cards}")
+      print(f"Dealer has: {computer_cards}")
   else:
     another_card = input("Type 'y' to get another card, or 'n' to pass: ")
-
+  
+    #second loop for another card
   while another_card == "y":
     clear()
     print(logo)
@@ -80,26 +81,21 @@ while start == "y":
     
     if sum_player > 21:
       print(f"You have: {player_cards}, score: {sum_player}")
-      print(f"Computer has: {computer_cards[:2]}")
-      print("Burst")
+      print(f"Dealer has: {computer_cards[:2]}")
+      print("Bust! Dealer wins!")
       break
       
     elif sum_player == 21:
-      print(f"You have Black Jack: {player_cards}, score: {sum_player}")
+      print(f"You have: {player_cards}, score: {sum_player}")
+      print(f"Dealer has: {computer_cards}")
       if sum_pc == 21:
-        print(f"Computer has Black Jack: {computer_cards}")
-        print("Draw!")
+        print("Push! It's a draw.")
       else:
-        print(f"Computer has Black Jack: {computer_cards}")
         print("You win!")
       break
     
-    
-    
-    
-    
     print(f"Your cards: {player_cards}, score: {sum_player}")
-    print(f"Computer first card: {computer_cards[0]}\n")
+    print(f"Dealer's first card is: {computer_cards[0]}\n")
     
     another_card = input("Type 'y' to get another card, or 'n' to pass: ")
   
@@ -107,14 +103,27 @@ while start == "y":
   if sum_player < 21:
     clear()
     print(logo)
-    print(f"Your cards: {player_cards}, score: {sum_player}")
-    print(f"Computer cards: {computer_cards}, score: {sum_pc}")    
+    print(f"You have: {player_cards}, score: {sum_player}")
+    print(f"Dealer has: {computer_cards}, score: {sum_pc}")    
 
     if sum_player < sum_hand(computer_cards) < 22:
-      print("You loose")
+      print("Dealer wins!")
     elif sum_player == sum_hand(computer_cards):
-      print("You draw")
+      print("Push! It's a draw.")
     else:
       print("You win!")
   
+  
+  
   start = input("Type 'y' if you want to play again: ")
+
+
+    
+    
+    
+
+  
+  
+
+  
+  
