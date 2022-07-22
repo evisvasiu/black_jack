@@ -3,9 +3,7 @@ from art import logo
 from replit import clear
 import random
 
-a = 11 #function: choose_a() will make a = 1 if hands score becomes greater than 10
-
-cards = {"A": a, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "J": 10, "Q": 10, "K": 10}
+cards = {"A": 11, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "J": 10, "Q": 10, "K": 10}
 
 #function that does the sum of cards in hands. Input are cards  
 def sum_hand(hand):
@@ -18,19 +16,18 @@ def sum_hand(hand):
 def choose_a(hand):
   s = sum_hand(hand)
   if s > 21:  #when sum>21
-    if cards["A"] == 11:
-      if hand.count('A') == 2:
-          cards["A"] = 6
-      else:  #from a=11 to a=1 directly
-        cards["A"] = 1
-    elif cards['A'] == 6:
-      cards["A"] = 1  
-  else:
+    if cards["A"] == 11:  #if A = 11
+      if hand.count('A') == 2:  #if there are two "A" in the hand
+          return 6      #the sum will be like one A is 11 and the other A is 1
+      else:  # if there is a max of one A. #from a=11 to a=1 directly
+        return 1
+    else: # if A is 6 or 1
+      return 1  
+  else:  #if sum<=21
     if hand.count("A") > 2:
-      cards["A"] = 1
-      
-
-    
+      return 1
+    else:
+      return cards["A"]
 
 print(logo)
 start = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
@@ -47,25 +44,23 @@ while start == "y":
   computer_cards = []
 
   #computer first 2 cards
-  cards["A"] = 11
   for i in range(2):
     computer_cards.append(random.choice(list(cards)))
-  choose_a(computer_cards)  #check for double A
+  cards["A"] = choose_a(computer_cards)  #decide for value of A
   sum_pc = sum_hand(computer_cards)
 
   #this loop will add cards to computer hand until sum of hands reach value 17
   while sum_pc < 17: 
     computer_cards.append(random.choice(list(cards)))
-    choose_a(computer_cards) 
+    cards["A"] = choose_a(computer_cards) 
     sum_pc = sum_hand(computer_cards)
   
   #player, first 2 cards
   cards["A"] = 11 #reset "A" to 11  
-  #player_cards = ["5", "6","A"]
+  #player_cards = ["10", "6"]
   for i in range(2):
     player_cards.append(random.choice(list(cards)))
-
-  choose_a(player_cards)  #check for double A
+  cards["A"] = choose_a(player_cards)
   sum_player = sum_hand(player_cards)
   
   
@@ -93,17 +88,11 @@ while start == "y":
     clear()
     print(logo)
     player_cards.append(random.choice(list(cards)))
-    choose_a(player_cards)
+    cards["A"] = choose_a(player_cards)
     sum_player = sum_hand(player_cards)
-    if player_cards[2] == "A" and len(player_cards) == 3:
-      sum_player = 14
     
     if sum_player > 21:
       print(f"You have: {player_cards}, score: {sum_player}")
-      if sum_hand(computer_cards[:2]) == 22:
-        cards["A"] = 6
-      else:
-        cards["A"] = 11
       print(f"Dealer has: {computer_cards[:2]}, score: {sum_hand(computer_cards[:2])}")
       print("Bust! Dealer wins!")
       break
