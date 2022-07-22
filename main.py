@@ -17,28 +17,20 @@ def sum_hand(hand):
 #function that choose what will be the value "A" based on the current sum of cards in hand
 def choose_a(hand):
   s = sum_hand(hand)
-  if s > 10:
-    if (hand[0] == hand[1] == "A"): #when first cards are "A"  
-      if len(hand)<3:
-        cards["A"] = 6
-      else:
-        if s > 21:
-          cards["A"] = 1
-    elif (hand[0] == "A" or hand[1] == "A") and (hand[0] != hand[1]):
-      if len(hand)<3:
-        cards["A"] = 11
-      else:
-        if hand.count('A') == 2 and sum_hand(hand[:-1]) < 21:
+  if s > 21:  #when sum>21
+    if cards["A"] == 11:
+      if hand.count('A') == 2:
           cards["A"] = 6
-        elif s > 21:
-          cards["A"] = 1
-        else:
-          cards["A"] = 11
-          
-    elif s > 21 and len(hand)>3:
-      cards["A"] = 1
+      else:  #from a=11 to a=1 directly
+        cards["A"] = 1
+    elif cards['A'] == 6:
+      cards["A"] = 1  
   else:
-    cards["A"] = 11
+    if hand.count("A") > 2:
+      cards["A"] = 1
+      
+
+    
 
 print(logo)
 start = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
@@ -69,9 +61,9 @@ while start == "y":
   
   #player, first 2 cards
   cards["A"] = 11 #reset "A" to 11  
-  player_cards = ["A", "4"]
-  #for i in range(2):
-    #player_cards.append(random.choice(list(cards)))
+  #player_cards = ["5", "6","A"]
+  for i in range(2):
+    player_cards.append(random.choice(list(cards)))
 
   choose_a(player_cards)  #check for double A
   sum_player = sum_hand(player_cards)
@@ -143,6 +135,5 @@ while start == "y":
       print("Push! It's a draw.")
     else:
       print("You win!")
-  
 
   start = input("Type 'y' if you want to play again: ")
