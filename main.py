@@ -18,19 +18,24 @@ def sum_hand(hand):
 def choose_a(hand):
   s = sum_hand(hand)
   if s > 10:
-    if (hand[0] == "A" or hand[1] == "A") and (hand[0] != hand[1]) and len(hand)<3:
-      cards["A"] = 11
-    elif (hand[0] == hand[1] == "A") and len(hand)<3:  #when first cards are "A"
-      cards["A"] = 6
-    elif (hand[0] == hand[1] == "A"):  #when three "A"
-      if hand[-1] == "A":
-        cards[hand[0]] = 11
-        cards["A"] = 1
-      elif cards[hand[-1]] == 10:
-        cards["A"] = 1
-      elif cards[hand[-1]] < 10:
+    if (hand[0] == hand[1] == "A"): #when first cards are "A"  
+      if len(hand)<3:
         cards["A"] = 6
-    if s > 21:
+      else:
+        if s > 21:
+          cards["A"] = 1
+    elif (hand[0] == "A" or hand[1] == "A") and (hand[0] != hand[1]):
+      if len(hand)<3:
+        cards["A"] = 11
+      else:
+        if hand.count('A') == 2 and sum_hand(hand[:-1]) < 21:
+          cards["A"] = 6
+        elif s > 21:
+          cards["A"] = 1
+        else:
+          cards["A"] = 11
+          
+    elif s > 21 and len(hand)>3:
       cards["A"] = 1
   else:
     cards["A"] = 11
@@ -64,8 +69,9 @@ while start == "y":
   
   #player, first 2 cards
   cards["A"] = 11 #reset "A" to 11  
-  for i in range(2):
-    player_cards.append(random.choice(list(cards)))
+  player_cards = ["A", "4"]
+  #for i in range(2):
+    #player_cards.append(random.choice(list(cards)))
 
   choose_a(player_cards)  #check for double A
   sum_player = sum_hand(player_cards)
@@ -97,6 +103,8 @@ while start == "y":
     player_cards.append(random.choice(list(cards)))
     choose_a(player_cards)
     sum_player = sum_hand(player_cards)
+    if player_cards[2] == "A" and len(player_cards) == 3:
+      sum_player = 14
     
     if sum_player > 21:
       print(f"You have: {player_cards}, score: {sum_player}")
@@ -136,6 +144,5 @@ while start == "y":
     else:
       print("You win!")
   
-  
-  
+
   start = input("Type 'y' if you want to play again: ")
